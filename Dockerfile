@@ -6,7 +6,7 @@ RUN git clone https://github.com/schardev/torrent-metadata.git && \
     ([[ "$TAG" = "latest" ]] || git checkout ${TAG}) && \
     rm -rf .git
 
-FROM node:slim AS build
+FROM node AS build
 
 WORKDIR /torrent-metadata
 COPY --from=base /git/torrent-metadata .
@@ -23,6 +23,7 @@ WORKDIR /torrent-metadata
 COPY --from=build /torrent-metadata/packages/server/package.json ./
 COPY --from=build /torrent-metadata/node_modules ./node_modules
 COPY --from=build /torrent-metadata/packages/server/dist ./dist
+ENV HOST=0.0.0.0
 
 EXPOSE 3001
 CMD ["npm", "start"]
