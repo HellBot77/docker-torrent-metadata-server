@@ -23,7 +23,8 @@ WORKDIR /torrent-metadata
 COPY --from=build /torrent-metadata/packages/server/package.json ./
 COPY --from=build /torrent-metadata/node_modules ./node_modules
 COPY --from=build /torrent-metadata/packages/server/dist ./dist
-ENV HOST=0.0.0.0
 
 EXPOSE 3001
-CMD ["npm", "start"]
+ENV HOST=0.0.0.0
+ENV NODE_ENV=production
+CMD [ "npm", "start" ]
